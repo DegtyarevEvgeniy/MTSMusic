@@ -1,0 +1,149 @@
+{% extends "base.html" %} {% block content %}
+<style>
+	@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+	input:-webkit-autofill {
+		-webkit-box-shadow: 0 0 0px 1000px white inset;
+	}
+</style>
+
+<div data-src="https://sun9-7.userapi.com/impg/PteaiuqBXAy_Bjk6KWtdd-3Nb7njbWathwBJDA/aCG6Hw5hqQc.jpg?size=2560x1440&quality=96&sign=2c7f4c789cc6f0c27af9c62b3170c0f9&type=album"
+	style=" height: 90vh;" uk-img>
+	<div style="padding-top: 5%;">
+		<div class="uk-flex uk-box-shadow-large"
+			style="width: 80%; margin: auto; height: 70vh; background-color: white;">
+			<div class=" uk-flex" style="width: 40%; margin-top: 10;">
+				<form method="POST" id="signin-form" class="uk-text-center" style="margin: 0 auto">
+					{% csrf_token %}
+					<div class="uk-margin-medium-top">
+						<h3 style="text-align: center; font-weight: 600; font-size: 48px; ">Вход</h3>
+						<div style="margin:auto; margin-top: 30%;">
+							<div class="uk-flex-column inputs uk-margin-medium-bottom">
+								<label>Почта</label>
+								<input type="text" name="email" class="uk-input uk-border uk-border-rounded"
+									placeholder="email@mail.com">
+							</div>
+							<div class="uk-flex-column inputs">
+								<label>Пароль</label>
+								<input type="password" name="password" placeholder="Password..."
+									class="uk-input uk-border uk-border-rounded">
+							</div>
+						</div>
+						<br>
+						{{errors}}
+						<button class="uk-button uk-button-secondary uk-width-2-3 uk-margin uk-border-pill" 
+							style=" border: solid black 2px;" type="submit"
+							name="btnform2" id="btnform2">Войти</button>
+					</div>
+				</form>
+				<form method="POST" id="signup-form" style="display: none; text-align: center; margin: 0 auto"
+					class="uk-widht-4-5@m uk-width-4-5">
+					{% csrf_token %}
+					<div class="uk-margin-medium-top">
+						<h3 style="text-align: center; font-weight: 600; font-size: 48px; ">Регистрация</h3>
+						<div class="inputs" style="margin: auto;  margin-top: 15%;">
+							<div class="uk-flex uk-flex-center uk-text-center">
+								<div class="uk-width-1-2" style="margin: 0 1%">
+									<label>Почта</label>
+									{{form.email}}
+								</div>
+
+								<div class="uk-width-1-2" style="margin: 0 1%">
+									<label>Имя</label>
+									{{form.first_name}}
+								</div>
+							</div>
+							<br>
+							<div class="uk-flex uk-flex-center uk-text-center">
+								<div class="uk-width-1-2" style="margin: 0 1%">
+									<label>Пароль</label>
+									{{form.password1}}
+								</div>
+								<div class="uk-width-1-2" style="margin: 0 1%">
+									<label>Повторите пароль</label>
+									{{form.password2}}
+								</div>
+							</div>
+						</div>
+						<br>
+						<label><input id="dock-read-check" class="uk-checkbox" type="checkbox"> При регистрации вы
+							соглашаетесь
+							со всеми пунктами <a href="/documents">документов</a> «Оферта» и «Политика
+							конфиденциальности».
+						</label>
+						<button class="uk-button uk-button-secondary uk-width-2-3 uk-margin uk-border-pill"
+							style=" border: solid black 2px;"
+							id="signinbtn" type="submit" name="btnform1" disabled>Зарегестрироваться</button>
+					</div>
+				</form>
+
+			</div>
+
+			<div class="uk-flex-column uk-flex-center uk-flex-middle uk-background-cover" style="width:60%"
+				data-src="https://sun9-21.userapi.com/impg/cMTazMxn0dcZX_99NASwoo0xRtxswxx8u9Pd0w/nVHJj8AMvek.jpg?size=2560x1440&quality=96&sign=7b7d8371371ba2cb448567396a51ecc8&type=album"
+				uk-img>
+				<div class="uk-width-1 uk-flex uk-flex-center uk-flex-middle">
+					<div style="margin-top: 20%">
+						
+						<p style="font-weight: 600; font-size: 45px; margin: 0;">Нет аккаунта?</p>
+						<button id="signup"
+							style=" border: solid black 2px;"
+							class="uk-button uk-button-secondary uk-width-2-5 uk-border-pill" type="button">Регистрация</button>
+
+						<p style="font-weight: 600; font-size: 45px; margin: 0; margin-top: 3%;">Уже есть аккаунт?</p>
+						<button id="signin"
+							style=" border: solid black 2px;"
+							class="uk-button uk-button-secondary uk-width-2-5 uk-border-pill" type="button">Вход</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+
+
+</body>
+
+<script>
+	function passchecker(pswd1, pswd2, chbox) {
+		if (pswd1.val() == pswd2.val() && pswd2.val().length > 3) {
+			pswd1.css('border-color', 'green')
+			pswd2.css('border-color', 'green')
+		} else {
+			pswd1.css('border-color', 'red')
+			pswd2.css('border-color', 'red')
+			$('#signinbtn').attr('disabled', 'disabled')
+		}
+		if (chbox && pswd1.val() == pswd2.val() && pswd2.val().length > 0) {
+			pswd1.css('border-color', 'green')
+			pswd2.css('border-color', 'green')
+			$('#signinbtn').attr('disabled', false)
+		} else{
+			$('#signinbtn').attr('disabled', 'disabled')
+		}
+	}
+
+	$('#dock-read-check').on('click', function () {
+		passchecker($('#password1'), $('#password2'), $('#dock-read-check').is(':checked'))
+	})
+
+	$('.pswdChecker').on('input', function (event) {
+		passchecker($('#password1'), $('#password2'), $('#dock-read-check').is(':checked'))
+	})
+
+	$(document).ready(function () {
+		$("#signup").click(function () {
+			$("#signin-form").css("display", "none");
+			$("#signup-form").css("display", "");
+		});
+
+		$("#signin").click(function () {
+			$("#signup-form").css("display", "none");
+			$("#signin-form").css("display", "");
+		});
+	});
+</script>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "base.html" %} {% block content %}
+
+
+<body style="margin: auto">
+<div style="margin: 0 auto; width: 80%;">
+
+    <div class="uk-card uk-card-default uk-grid-collapse uk-margin-medium uk-margin-medium-left uk-margin-medium-right"
+        uk-grid style="margin: auto">
+        <div class="uk-card-media-left uk-cover-container uk-width-2-5 text-center uk-padding">
+            <img src="{{user.userImage}}" alt="" class="uk-border-rounded" style="width: 40vw;">
+            <p class="uk-margin-remove-bottom uk-text-emphasis">{{user.first_name}} {{user.last_name}}</p>
+            <p class="uk-margin-small-top uk-text-muted">{{user.email}}</p>
+        </div>
+        <div class="uk-width-3-5">
+            <div class="uk-card-body">
+                <form class="uk-grid-small" method="post" enctype="multipart/form-data" uk-grid>
+                    {% csrf_token %}
+                    <div class="uk-width-1-2">
+                        <label class="uk-form-label">
+                            <h4>Имя</h4>
+                        </label>
+                        <input class="uk-input uk-border-rounded" name="first_name" type="text" id="first_name"
+                            placeholder="{{user.first_name}}" value="{{user.first_name}}">
+                    </div>
+
+                    <div class="uk-width-1-2@s">
+                        <label class="uk-form-label">
+                            <h4>Фамилия</h4>
+                        </label>
+                        <input class="uk-input uk-border-rounded" name="last_name" type="text" id="last_name"
+                            placeholder="{{user.last_name}}" value="{{user.last_name}}">
+                    </div>
+
+                    <div class="uk-width-1-2@s">
+                        <label class="uk-form-label">
+                            <h4>Город</h4>
+                        </label>
+                        <input class="uk-input uk-border-rounded" name="city" id="city"
+                            placeholder="{{user.city}}" value="{{user.city}}">
+                    </div>
+
+                    <div class="uk-width-1-2@s">
+                        <label class="uk-form-label">
+                            <h4>Телефон</h4>
+                        </label>
+                        <input class="uk-input uk-border-rounded" name="phone" type="number" id="phone"
+                            placeholder="{{user.phone}}" value="{{user.phone}}">
+                    </div>
+
+                    <div class=" uk-width-1-1@s">
+                        <label class="uk-form-label">
+                            <h4>Почта</h4>
+                        </label>
+                        <input class="uk-input uk-border-rounded" name="email" type="text" id="email"
+                            placeholder="{{user.email}}" value="{{user.email}}">
+                    </div>
+
+                    <div class="uk-width-1-1@s js-upload" uk-form-custom>
+                        <label class="uk-form-label">
+                            <h4>Загрузите новое фото</h4>
+                        </label>
+                        <br>
+                        <div uk-form-custom="target: true" class="uk-width-1-1">
+                            <input name="profile_photo" type="file" accept="image/*" id="profile_photo">
+                            <input class="uk-input uk-form-width-medium uk-width-1-1" type="text"
+                                placeholder="Select file" disabled>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-1@s uk-text-center uk-margin-medium-top">
+                        <button
+                            class="uk-button uk-button-primary uk-width-1-3 uk-margin-medium-right uk-border-rounded"
+                            type="submit">Сохранить</button>
+                        <button class="uk-button uk-button-primary uk-width-1-3 uk-margin-medium-left uk-border-rounded"
+                            type="">Назад</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+{% endblock %}

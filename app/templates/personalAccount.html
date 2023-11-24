@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+<div style="width: 80%; margin: auto">
+    <div class='uk-flex uk-margin-top'>
+        <ul class="uk-list uk-width-1-3">
+            
+            <li class="uk-active Btn"><button style="font-weight: 400; font-size: 1.3em;" class="uk-button uk-button-text Btn">Заказы</button></li>
+            <li class="uk-active Btn"><button style="font-weight: 400; font-size: 1.3em;" class="uk-button uk-button-text Btn">Возвраты</button></li>
+            <li class="uk-active Btn"><button style="font-weight: 400; font-size: 1.3em;" class="uk-button uk-button-text Btn">Мои данные</button></li>
+            <li class="uk-active Btn"><button style="font-weight: 400; font-size: 1.3em;" class="uk-button uk-button-text Btn">Скидки и подарки от партнеров</button></li>
+            <li class="uk-active Btn"><button style="font-weight: 400; font-size: 1.3em;" class="uk-button uk-button-text Btn">Промокоды</button></li>
+            <li class="uk-active Btn"><button style="font-weight: 400; font-size: 1.3em;" class="uk-button uk-button-text Btn">Подарочные сертификаты</button></li>
+            <li class="uk-active Btn"><button style="font-weight: 400; font-size: 1.3em;" class="uk-button uk-button-text Btn">ОТзывы и вопросы</button></li>
+        </ul>
+
+        <div id="MainWindowContainer" class="uk-width-2-3"> </div>
+    </div>
+
+</div>
+</body>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.13.7/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.13.7/dist/js/uikit-icons.min.js"></script>
+
+
+
+<script>
+    $(function () {
+        var num = window.location.search[1];
+        if (localStorage.page != null) {
+            num = localStorage.page
+        } else {
+            num = 2;
+        }
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', `personalAccountTemplates/${num}/`)
+        xhr.onload = function () {
+            $('#MainWindowContainer').html(xhr.response)
+        }
+        xhr.send()
+
+    });
+
+    $('.Btn').on('click', {}, function (inBody) {
+        var xhr = new XMLHttpRequest()
+        var index = $(this).index() + 2
+        localStorage.page = index
+        xhr.open('GET', `personalAccountTemplates/${index}/`)
+        xhr.onload = function () {
+            $('#MainWindowContainer').html(xhr.response)
+        }
+        xhr.send()
+    });
+</script>
+
+
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+    integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous">
+</script>
+
+{% include "footer.html" %}
+
+{% endblock %}
