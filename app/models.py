@@ -16,3 +16,6 @@ class Room(models.Model):
 
     def __str__(self):
         return self.name
+
+class BetaServer(models.Model):
+    time = models.IntegerField()
