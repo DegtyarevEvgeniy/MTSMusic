@@ -37,8 +37,6 @@ import re
 content = {}
 
 
-
-
 def sized_render(request, file_name, content):
     
     MOBILE_AGENT_RE=re.compile(r".*(iphone|mobile|androidtouch)",re.IGNORECASE)
@@ -135,6 +133,20 @@ def forgot_password_page(request):
 
 def service_page(request):  # sourcery skip: low-code-quality
     user = Account.objects.get(id=request.user.id)
+    if request.method == 'POST' and 'AddRoom' in request.POST:
+        print(request.POST)
+
+        room = Room(
+        name = request.POST['name'],
+        amount_of_users = int(request.POST['amount_of_users']),
+        song = "Shape of my heart",
+        timer = 128,
+
+        )
+        room.save()
+
+
+
     # shop = Shop.objects.get(creator=request.user.id)
     # # profile editing
     # if request.method == 'POST' and "profile_saver1" in request.POST:  
