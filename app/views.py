@@ -1,7 +1,13 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
-def index_page(request):
-    content = {}
-    content['server'] = {'time': 12}
-    return render(request, 'index.html', content)
-    
+def home(request):
+    content = {
+        "title" : "Trigger python"
+    }
+    return render(request, "index.html", content)
+    # content['server'] = {'time': 12}
+    # return render(request, 'index.html', content)
+def simple_func(request):
+    print("\nThis is a simple function\n")
+    return HttpResponse("""<html><script>window.location.replace('/');</script></html>""")
