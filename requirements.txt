@@ -9,6 +9,7 @@ simplejson==3.18.1
 social-auth-app-django==5.0.0
 social-auth-core==4.3.0
 djangorestframework==3.14.0
+requests==2.25.1
 
 # IF error:
 #

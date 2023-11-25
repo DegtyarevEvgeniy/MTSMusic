@@ -34,14 +34,24 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls'), name='account'),
     path('edit/', views.edit_profile, name='edit_profile'),
     path('personalAccount/', views.personalAccount_page),
-    path('personalAccount/personalAccountTemplates/<name>/', views.personalAccountTemplates_page, name='personalAccountTemplate'),
+    path('personalAccount/personalAccountTemplates/<int:name>/', views.personalAccountTemplates_page, name='personalAccountTemplate'),
 
 
     # partner links
     path('partners/', views.partners_page, name='partners_page'),
     path('service/', views.service_page, name='service_page'),
-    path('service/serviceTemplates/<name>/', views.serviceTemplate_page, name='serviceTemplate_page'),
-    path('service/room/<name>/', views.roomTemplate_page, name='roomTemplate_page'),
+    path('service/serviceTemplates/<int:name>/', views.serviceTemplate_page, name='serviceTemplate_page'),
+    path('service/room/<int:name>/', views.roomTemplate_page, name='roomTemplate_page'),
+    
+    # api Links
+    path('api/create_user', views.create_user),
+    path('api/create_rooms', views.create_room),
+    path('api/get_user/<int:user_id>/', views.get_user_by_id, name='get-user-by-id'),
+    path('api/rooms/<int:roomId>/get_track_time', views.get_track_time),
+    path('api/rooms/<int:roomId>/get_all_users', views.get_room_users),
+    path('api/rooms/<int:roomId>/remove_user/<int:userId>', views.remove_user_from_room),
+    path('api/rooms/<int:roomId>/add_user/<int:userId>', views.add_user_to_room),
+    path('api/rooms/<int:roomId>/select-track', views.select_track),
 
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

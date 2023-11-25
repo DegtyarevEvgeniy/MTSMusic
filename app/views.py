@@ -14,6 +14,7 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 
 from rest_framework.decorators import api_view
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -38,33 +39,42 @@ import re
 @api_view(['GET'])
 def get_user_by_id(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    serializer = UserSerializer(user)
+    serializer = AccountSerializer(user)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def create_user(request):
+    serializer = AccountSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST'])
 def create_room(request):
     serializer = RoomSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(creator=request.user)  # Assuming you have user authentication
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class TrackTimeView(APIView):
-    def get(self, request, roomId):
-        room = Room.objects.get(pk=roomId)
-        return Response({"track_timer": room.timer})
+@api_view(['GET'])
+def get_track_time(request, roomId):
+    room = get_object_or_404(Room, id=roomId)
+    return Response({"track_timer": room.track_timer})
 
-class RoomUsersView(APIView):
-    def get(self, request, roomId):
-        room = Room.objects.get(pk=roomId)
-        users = room.user_set.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+@api_view(['GET'])
+def get_room_users(request, roomId):
+    room = get_object_or_404(Room, id=roomId)
+    users = room.user_set.all()
+    serializer = AccountSerializer(users, many=True)
+    return Response(serializer.data)
 
 @api_view(['DELETE'])
 def remove_user_from_room(request, roomId, userId):
     try:
-        room = Room.objects.get(pk=roomId)
-        user = User.objects.get(pk=userId)
+        room = Room.objects.get(id=roomId)
+        user = User.objects.get(id=userId)
         room.user_set.remove(user)
         return Response(status=status.HTTP_204_NO_CONTENT)
     except Room.DoesNotExist or User.DoesNotExist:
@@ -73,8 +83,8 @@ def remove_user_from_room(request, roomId, userId):
 @api_view(['POST'])
 def add_user_to_room(request, roomId, userId):
     try:
-        room = Room.objects.get(pk=roomId)
-        user = User.objects.get(pk=userId)
+        room = Room.objects.get(id=roomId)
+        user = User.objects.get(id=userId)
         room.user_set.add(user)
         return Response(status=status.HTTP_201_CREATED)
     except Room.DoesNotExist or User.DoesNotExist:
@@ -83,8 +93,7 @@ def add_user_to_room(request, roomId, userId):
 @api_view(['PUT'])
 def select_track(request, roomId):
     try:
-        room = Room.objects.get(pk=roomId)
-        # Assuming you have a field named 'selected_track' in your Room model
+        room = Room.objects.get(id=roomId)
         room.selected_track = request.data.get('selected_track', '')
         room.save()
         return Response(status=status.HTTP_200_OK)
@@ -106,7 +115,9 @@ def sized_render(request, file_name, content):
 
 def index_page(request):
     content = {}
-
+    
+    response = requests.get(f'http://127.0.0.1:8000/api/get_user/{request.user.id}')
+    print(response.json())
     
     return render(request, 'index.html', content)
         
