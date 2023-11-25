@@ -21,6 +21,8 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_page),
-    path('simple_function/', views.simple_func)
+    path('simple_function/', views.simple_func),
+    path('api/beta-server-time/', views.get_beta_server_time, name='get-beta-server-time'),
+
 
 ]
