@@ -4,10 +4,24 @@ from .models import *
 from account.models import Account
 
         
-# class AccountSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = account
-#         fields = ['id', 'name', 'password']
+class AccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = [  'username',
+                    'email',
+                    'first_name',
+                    'last_name',
+                    'phone',
+                    'city',
+                    'userImage',
+                    'is_admin',
+                    'is_superuser',
+                    'is_staff',
+                    'is_active',
+                    'payment_account',
+                    'confirmed',
+                    'room',
+                    ]
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
