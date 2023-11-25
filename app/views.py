@@ -35,23 +35,11 @@ import os
 import re
 
 # start of API part
-@api_view(['GET']) # test api get time
-def get_beta_server_time(request):
-    try:
-        beta_server = BetaServer.objects.first()  # Assuming you have only one BetaServer instance
-        serializer = BetaServerSerializer(beta_server)
-        return Response(serializer.data)
-    except BetaServer.DoesNotExist:
-        return Response({"error": "BetaServer does not exist"}, status=status.HTTP_404_NOT_FOUND)
-
-@api_view(['POST'])
-def create_user(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+@api_view(['GET'])
+def get_user_by_id(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
 @api_view(['POST'])
 def create_room(request):
     serializer = RoomSerializer(data=request.data)
