@@ -1,44 +1,114 @@
-from imaplib import _Authenticator
-from django.shortcuts import render
-from .models import *
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
+from django.shortcuts import render
+from imaplib import _Authenticator
+from .models import *
 
-from operator import ilshift
-import os
 from unicodedata import category
+from operator import ilshift
 
-from django.core.mail import send_mail
-from django.db.models import Q
-from django.shortcuts import render, redirect
 from django.utils.dateformat import DateFormat
+from django.shortcuts import render, redirect
 from django.utils.formats import get_format
+from django.core.mail import send_mail
 from django.urls import reverse_lazy
+from django.db.models import Q
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .serializers import *
+
 
 from django.contrib.auth import logout, authenticate, login
 from django.core.files.storage import FileSystemStorage
 from account.models import Account
 
+import simplejson as json
 from .forms import *
+import requests
+import base64
+import random
 import email
 import math
-import base64
-import requests
-import random
-import simplejson as json
-
-
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
-
-
+import os
 import re
 
+# start of API part
+@api_view(['GET']) # test api get time
+def get_beta_server_time(request):
+    try:
+        beta_server = BetaServer.objects.first()  # Assuming you have only one BetaServer instance
+        serializer = BetaServerSerializer(beta_server)
+        return Response(serializer.data)
+    except BetaServer.DoesNotExist:
+        return Response({"error": "BetaServer does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def create_user(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def create_room(request):
+    serializer = RoomSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(creator=request.user)  # Assuming you have user authentication
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TrackTimeView(APIView):
+    def get(self, request, roomId):
+        room = Room.objects.get(pk=roomId)
+        return Response({"track_timer": room.timer})
+
+class RoomUsersView(APIView):
+    def get(self, request, roomId):
+        room = Room.objects.get(pk=roomId)
+        users = room.user_set.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+@api_view(['DELETE'])
+def remove_user_from_room(request, roomId, userId):
+    try:
+        room = Room.objects.get(pk=roomId)
+        user = User.objects.get(pk=userId)
+        room.user_set.remove(user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except Room.DoesNotExist or User.DoesNotExist:
+        return Response({"error": "Room or User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def add_user_to_room(request, roomId, userId):
+    try:
+        room = Room.objects.get(pk=roomId)
+        user = User.objects.get(pk=userId)
+        room.user_set.add(user)
+        return Response(status=status.HTTP_201_CREATED)
+    except Room.DoesNotExist or User.DoesNotExist:
+        return Response({"error": "Room or User does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['PUT'])
+def select_track(request, roomId):
+    try:
+        room = Room.objects.get(pk=roomId)
+        # Assuming you have a field named 'selected_track' in your Room model
+        room.selected_track = request.data.get('selected_track', '')
+        room.save()
+        return Response(status=status.HTTP_200_OK)
+    except Room.DoesNotExist:
+        return Response({"error": "Room does not exist"}, status=status.HTTP_404_NOT_FOUND)
+# END OF API PART
 
 
-content = {}
 
 
 def sized_render(request, file_name, content):
-    
+    content = {}
     MOBILE_AGENT_RE=re.compile(r".*(iphone|mobile|androidtouch)",re.IGNORECASE)
 
     if MOBILE_AGENT_RE.match(request.META['HTTP_USER_AGENT']):
@@ -54,13 +124,16 @@ def index_page(request):
         
 # user sector
 def personalAccount_page(request):
+    content = {}
     return render(request, "personalAccount.html")
 
 def personalAccountTemplates_page(request, name):
+    content = {}
     path = f"personalAccountTemplates/template{name}.html"   
     return render(request, path) 
 
 def edit_profile(request):
+    content = {}
     try:
         email = request.user
         person = Account.objects.get(email=email)
@@ -90,10 +163,12 @@ def edit_profile(request):
 
 # enterance sector
 def logout_view(request):
+    content = {}
     logout(request)
     return HttpResponseRedirect("/")
 
 def login_page(request):
+    content = {}
     form = SignUpForm(request.POST)
     content = {
         'form': form
@@ -127,6 +202,7 @@ def login_page(request):
 
 
 def forgot_password_page(request):
+    content = {}
     return render(request, 'forgotPassword.html')
 
 
@@ -357,6 +433,7 @@ def service_page(request):
 
 
 def serviceTemplate_page(request, name):
+    content = {}
     try :
         content['rooms'] = Room.objects.all()
         
@@ -453,6 +530,7 @@ def roomTemplate_page(request, name):
 
 
 def partners_page(request):
+    content = {}
 
     # partner = BePartner.objects.all()
 

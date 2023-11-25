@@ -1,17 +1,13 @@
 # serializers.py
 from rest_framework import serializers
 from .models import *
+from account.models import Account
 
-
-class BetaServerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BetaServer
-        fields = ['time']
         
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'name', 'password']
+# class AccountSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = account
+#         fields = ['id', 'name', 'password']
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
