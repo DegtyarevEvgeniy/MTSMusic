@@ -1,7 +1,8 @@
 {% extends "base.html" %} 
 
-
 {% block content %}
+
+{% load static %}
 
 <a class="uk-button uk-button-default" href="/service/">Назад в меню</a>
 
@@ -28,15 +29,13 @@
 <body>
     <div class="uk-alert-success" uk-alert>
         <a href class="uk-alert-close" uk-close></a>
-
+        <audio controls>
+            <p>Аудио-контент</p>
+            <source src = "{% static 'music/Pigs.mp3' %}" type="audio/mpeg">
+        </audio>
         <p>Ты в комнате!!!!!</p>
     </div>
-    <audio controls>
-        <p>Аудио-контент</p>
-        <!-- <source src="https://www.myinstants.com/ru/instant/galaxy-meme-18643/?utm_source=copy&utm_medium=share" type="audio/mpeg"> -->
 
-        <source src="D:\MTS_Hackaton\MTSMusic-main\app\templates\Pigs.mp3" type="audio/mpeg">
-    </audio>
 </body>
 
 {% endif %}
