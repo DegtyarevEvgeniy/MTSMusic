@@ -25,19 +25,19 @@
 
 <!--  -->
 {% if user.room == room.id %}
+<body>
+    <div class="uk-alert-success" uk-alert>
+        <a href class="uk-alert-close" uk-close></a>
 
-<div class="uk-alert-success" uk-alert>
-    <a href class="uk-alert-close" uk-close></a>
+        <p>Ты в комнате!!!!!</p>
+    </div>
+    <audio controls>
+        <p>Аудио-контент</p>
+        <!-- <source src="https://www.myinstants.com/ru/instant/galaxy-meme-18643/?utm_source=copy&utm_medium=share" type="audio/mpeg"> -->
 
-    <!-- Adding audio test -->
-    <!-- <audio controls>
-        <source src = "Pigs.mp3">
-    </audio> -->
-    <audio src="Pigs.mp3" controls></audio>
-    <!--  -->
-    
-    <p>Ты в комнате!!!!!</p>
-</div>
+        <source src="D:\MTS_Hackaton\MTSMusic-main\app\templates\Pigs.mp3" type="audio/mpeg">
+    </audio>
+</body>
 
 {% endif %}
 
