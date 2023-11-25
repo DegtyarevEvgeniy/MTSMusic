@@ -11,4 +11,4 @@ def index_page(request):
     # return render(request, 'index.html', content)
 def simple_func(request):
     print("\nThis is a simple function\n")
-    return HttpResponse("""<html><script>window.location.replace('/');</script></html>""")
+    return HttpResponse("""<html><script>alert('hello')</script></html>""")

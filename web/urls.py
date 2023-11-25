@@ -21,6 +21,6 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index_page),
-    path("simple_function/", views.simple_func)
+    path('simple_function/', views.simple_func)
 
 ]

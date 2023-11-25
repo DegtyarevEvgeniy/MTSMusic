@@ -1,5 +1,8 @@
 # MTSMusic
 
+## dependencies
+
+- pip install -r requirements.txt
 
 ## run code
 
