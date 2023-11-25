@@ -28,3 +28,9 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         fields = ['id', 'name', 'creator', 'amount_of_users', 'song', 'timer']
+        
+class SongSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Song
+        fields = ['id', 'name', 'length']
+

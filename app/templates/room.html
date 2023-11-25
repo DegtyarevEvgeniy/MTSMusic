@@ -24,20 +24,74 @@
        
 </form> 
 
+<h2>Выберите песню</h2>
+<form id="songForm" method="post" enctype="multipart/form-data" uk-grid>
+    {% csrf_token %}
+    {% for song in songs %}
+        <button
+            class="uk-button uk-button-secondary uk-width-1-3 uk-margin-medium-right uk-border-rounded song-button"
+            data-song-name="{{ song }}"
+            data-song-id = "{{ song.id }}"
+            type="button">
+            {{ song }}
+        </button>
+    {% endfor %}
+</form>
+
 <!--  -->
 {% if user.room == room.id %}
-<h4>Песня {{room.song}}</h4>
+<h4 id="sonng-name">Песня {{room.song}}</h4>
 <body>
     <div class="uk-alert-success" uk-alert>
         <a href class="uk-alert-close" uk-close></a>
 
-        <audio src="{% static 'music/' %}{{ room.song }}.mp3" controls autoplay></audio>
+        <audio src="{% static 'music/' %}{{ room.song }}" controls autoplay></audio>
 
     </div>
 
 </body>
 
+
 {% endif %}
+
+<script>
+    $(document).ready(function () {
+        // Get the CSRF token from the cookie
+        var csrftoken = '{{ csrf_token }}';
+
+        $('.song-button').click(function () {
+            var selectedSongId = $(this).data('song-id');
+            var selectedSongName = $(this).data('song-name');
+
+            // Make an AJAX request to update the selected song
+            $.ajax({
+                type: 'PUT',
+                url: `/api/rooms/{{ room.id }}/select-track/${selectedSongId}`,
+                data: {
+                    selected_track_id: selectedSongId,
+                    selected_track_name: selectedSongName,
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken,  // Include the CSRF token in the headers
+                },
+                success: function (data) {
+                    // Update the UI with the new song information
+                    $('#sonng-name').text(`Песня ${selectedSongName}`);
+
+                    // Update the audio source
+                    $('audio').attr('src', '{% static "music/" %}' + selectedSongName);
+
+                    console.log('Song selected successfully');
+                },
+                error: function (error) {
+                    // Handle error
+                    console.error('Error selecting song:', error);
+                }
+            });
+        });
+    });
+</script>
+
 
 
 {% endblock %}

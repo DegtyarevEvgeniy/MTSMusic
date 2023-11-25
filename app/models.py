@@ -16,3 +16,11 @@ class Room(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class Song(models.Model):
+    name = models.CharField(max_length=255)
+    length = models.IntegerField()
+
+    def __str__(self):
+        return self.name

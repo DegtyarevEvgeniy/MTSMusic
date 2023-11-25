@@ -51,7 +51,7 @@ urlpatterns = [
     path('api/rooms/<int:roomId>/get_all_users', views.get_room_users),
     path('api/rooms/<int:roomId>/remove_user/<int:userId>', views.remove_user_from_room),
     path('api/rooms/<int:roomId>/add_user/<int:userId>', views.add_user_to_room),
-    path('api/rooms/<int:roomId>/select-track', views.select_track),
+    path('api/rooms/<int:roomId>/select-track/<int:trackId>', views.select_track),
 
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -91,14 +91,17 @@ def add_user_to_room(request, roomId, userId):
         return Response({"error": "Room or User does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['PUT'])
-def select_track(request, roomId):
+def select_track(request, roomId, trackId):
     try:
+
         room = Room.objects.get(id=roomId)
-        room.selected_track = request.data.get('selected_track', '')
+        track = Song.objects.get(id=trackId)
+        room.song = track.name
         room.save()
-        return Response(status=status.HTTP_200_OK)
-    except Room.DoesNotExist:
-        return Response({"error": "Room does not exist"}, status=status.HTTP_404_NOT_FOUND)
+        print(room)
+        return Response(status=status.HTTP_201_CREATED)
+    except Room.DoesNotExist or trackId.DoesNotExist:
+        return Response({"error": "Room or Song does not exist"}, status=status.HTTP_404_NOT_FOUND)
 # END OF API PART
 
 
@@ -117,7 +120,6 @@ def index_page(request):
     content = {}
     
     response = requests.get(f'http://127.0.0.1:8000/api/get_user/{request.user.id}')
-    print(response.json())
     
     return render(request, 'index.html', content)
         
@@ -501,23 +503,25 @@ def roomTemplate_page(request, name):
     content={}
     
     room = Room.objects.get(id=name)
+    songs = Song.objects.all()
     user = Account.objects.get(id=request.user.id)
-
     content['room'] = room
-
+    content['songs'] = [song for song in songs]
+    
     if request.method == 'POST' and 'AddToRoom' in request.POST:
 
         user.room = name
         user.save()
+        return HttpResponseRedirect(f'/service/room/{name}/')
 
-        return redirect('/service/room/'+name+'/')
 
     if request.method == 'POST' and 'LeaveToRoom' in request.POST:
 
         user.room = 0
         user.save()
 
-        return redirect('/service/room/'+name+'/')
+        return HttpResponseRedirect(f'/service/room/{name}/')
+
 
 
 
