@@ -150,6 +150,22 @@ def service_page(request):
 
         return redirect('/service/')
 
+
+    if request.method == 'POST' and 'AddToRoom' in request.POST:
+
+        print(request.POST)
+        user.room = int(request.POST['AddToRoom'])
+        user.save()
+
+        return redirect('/service/')
+
+    if request.method == 'POST' and 'LeaveToRoom' in request.POST:
+
+        user.room = 0
+        user.save()
+
+        return redirect('/service/')
+
     
 
 
@@ -343,6 +359,8 @@ def service_page(request):
 def serviceTemplate_page(request, name):
     try :
         content['rooms'] = Room.objects.all()
+        
+
 
     except:
         pass
