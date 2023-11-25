@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'social_django',
     'app',
+    'account',
     'rest_framework',
 ]
 

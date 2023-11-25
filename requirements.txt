@@ -1,2 +1,35 @@
-Django==4.2.7
+Django==4.0.4
+django-phonenumber-field[phonenumbers]==6.1.0
+django-taggit==2.1.0
+Pillow==9.2.0
+mysqlclient==2.1.1
+requests==2.25.1
+jsonfield==3.1.0
+simplejson==3.18.1
+social-auth-app-django==5.0.0
+social-auth-core==4.3.0
 djangorestframework==3.14.0
+
+# IF error:
+#
+# FOR linux
+# 
+# -debian-
+# sudo apt-get install python3-dev default-libmysqlclient-dev build-essential
+# -arch-
+# sudo yum install python3-devel mysql-devel
+#
+# FOR macOs(Homebrew)
+#
+# brew install mysql
+# pip install mysqlclient
+#
+# -or-
+#
+# brew install mysql-client
+# echo 'export PATH="/usr/local/opt/mysql-client/bin:$PATH"' >> ~/.bash_profile
+# export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+# pip install mysqlclient
+#
+# FOR windows
+# pip install mysqlclient
