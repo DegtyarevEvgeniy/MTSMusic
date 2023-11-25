@@ -26,13 +26,13 @@
 
 <!--  -->
 {% if user.room == room.id %}
+<h4>Песня {{room.song}}</h4>
 <body>
     <div class="uk-alert-success" uk-alert>
         <a href class="uk-alert-close" uk-close></a>
-        <audio controls>
-            <source src = "{% static 'music/Pigs.mp3' %}" type="audio/mpeg">
-        </audio>
-        <p>Ты в комнате!!!!!</p>
+
+        <audio src="{% static 'music/' %}{{ room.song }}.mp3" controls autoplay></audio>
+
     </div>
 
 </body>
