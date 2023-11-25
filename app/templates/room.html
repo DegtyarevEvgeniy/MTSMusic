@@ -23,10 +23,19 @@
        
 </form> 
 
+<!--  -->
 {% if user.room == room.id %}
 
 <div class="uk-alert-success" uk-alert>
     <a href class="uk-alert-close" uk-close></a>
+
+    <!-- Adding audio test -->
+    <!-- <audio controls>
+        <source src = "Pigs.mp3">
+    </audio> -->
+    <audio src="Pigs.mp3" controls></audio>
+    <!--  -->
+    
     <p>Ты в комнате!!!!!</p>
 </div>
 
