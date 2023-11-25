@@ -74,8 +74,6 @@ class CustomUserChangeForm(UserChangeForm):
     
     class Meta:
         model = Account
-        fields = ('email', 'city', 'first_name', 'last_name', 'email',
-          'street', 'fiz_adress',  'checking_account', 
-          'payment_account', )
+        fields = ('email', 'city', 'first_name', 'last_name', 'email', 'payment_account', )
 
         # 'ogrn', 'inn', 'index','nameFull', 'korr_check','kpp', 'name_small', 'reg_form', 'bik', 

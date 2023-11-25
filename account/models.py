@@ -36,17 +36,14 @@ class Account(AbstractBaseUser):
     phone = models.IntegerField(default='1')
     city = models.CharField(max_length=1000, default='')
     userImage = models.ImageField(default='https://i.ibb.co/s3QmZrw/default.png')
-    prevUserImage = models.ImageField(default='')
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     payment_account = models.IntegerField(default=0)
-    checking_account = models.IntegerField(default=0)
-    fiz_adress = models.CharField(max_length=1000, default='')
-    street = models.CharField(max_length=1000,default='')
-    is_partner = models.BooleanField(default=False)
     confirmed = models.BooleanField(default=False)
+    room = models.IntegerField(default='0')
+
 
 
     USERNAME_FIELD = 'email'

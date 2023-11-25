@@ -41,6 +41,8 @@ urlpatterns = [
     path('partners/', views.partners_page, name='partners_page'),
     path('service/', views.service_page, name='service_page'),
     path('service/serviceTemplates/<name>/', views.serviceTemplate_page, name='serviceTemplate_page'),
+    path('service/room/<name>/', views.roomTemplate_page, name='roomTemplate_page'),
+
     
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

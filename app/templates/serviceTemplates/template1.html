@@ -38,8 +38,33 @@
                     type="">Назад</button>
 
             </div>
-        </form>    </div>
+        </form> 
+     </div>
 </div>
+
+<h2>Доступные комнаты</h2>
+
+
+<div class="uk-child-width-1-2@s" uk-grid>
+
+    {% for room in rooms %}
+
+    <div>
+        <a href="room/{{room.id}}/">
+            <div class="uk-card uk-card-default uk-card-small uk-card-body">
+                <h3 class="uk-card-title">{{room.name}}</h3>
+                <p>Кол-во пользователей: {{room.amount_of_users}}</p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+
+
+</div>
+
+
+
+
 
 
 

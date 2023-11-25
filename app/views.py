@@ -131,8 +131,12 @@ def forgot_password_page(request):
 
 
 
-def service_page(request):  # sourcery skip: low-code-quality
+def service_page(request):
+
+    content = {}
+
     user = Account.objects.get(id=request.user.id)
+
     if request.method == 'POST' and 'AddRoom' in request.POST:
         print(request.POST)
 
@@ -141,9 +145,12 @@ def service_page(request):  # sourcery skip: low-code-quality
         amount_of_users = int(request.POST['amount_of_users']),
         song = "Shape of my heart",
         timer = 128,
-
         )
         room.save()
+
+        return redirect('/service/')
+
+    
 
 
 
@@ -334,6 +341,11 @@ def service_page(request):  # sourcery skip: low-code-quality
 
 
 def serviceTemplate_page(request, name):
+    try :
+        content['rooms'] = Room.objects.all()
+
+    except:
+        pass
     # try:
     #     user = Account.objects.get(email=request.user.email)
     #     shop = Shop.objects.get(email=request.user)
@@ -390,6 +402,36 @@ def serviceTemplate_page(request, name):
     #     content['form8'] = form
     #     content['shop'] = shop
     return render(request, path, content)
+
+def roomTemplate_page(request, name):
+    content={}
+    
+    room = Room.objects.get(id=name)
+    user = Account.objects.get(id=request.user.id)
+
+    content['room'] = room
+
+    if request.method == 'POST' and 'AddToRoom' in request.POST:
+
+        user.room = name
+        user.save()
+
+        return redirect('/service/room/'+name+'/')
+
+    if request.method == 'POST' and 'LeaveToRoom' in request.POST:
+
+        user.room = 0
+        user.save()
+
+        return redirect('/service/room/'+name+'/')
+
+
+
+
+
+    return render(request, 'room.html', content)
+
+
 
 
 def partners_page(request):
