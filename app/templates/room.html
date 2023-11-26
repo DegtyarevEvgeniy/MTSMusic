@@ -92,6 +92,42 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+        var selectedSongId;  // Keep track of the selected song ID
 
+        // WebSocket connection for song updates
+        var trackTimeSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/rooms/{{ room.id }}/get_track_time/');
+        trackTimeSocket.onmessage = function (e) {
+            var data = JSON.parse(e.data);
+            // Handle song updates, e.g., update the song playback time
+        };
+
+        $('.song-button').click(function () {
+            selectedSongId = $(this).data('song-id');
+            
+            // Make an AJAX request to update the selected song
+            $.ajax({
+                type: 'PUT',
+                url: `/api/rooms/{{ room.id }}/select-track/${selectedSongId}`,
+                data: {
+                    selected_track_id: selectedSongId,
+                },
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                success: function (data) {
+                    // Optionally update the UI or handle success
+                    console.log('Song selected successfully');
+                },
+                error: function (error) {
+                    // Handle error
+                    console.error('Error selecting song:', error);
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}

@@ -13,13 +13,15 @@ from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.db.models import Q
 
-from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from .serializers import *
 
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 from django.contrib.auth import logout, authenticate, login
 from django.core.files.storage import FileSystemStorage
@@ -34,6 +36,7 @@ import email
 import math
 import os
 import re
+
 
 # start of API part
 @api_view(['GET'])
@@ -61,7 +64,7 @@ def create_room(request):
 @api_view(['GET'])
 def get_track_time(request, roomId):
     room = get_object_or_404(Room, id=roomId)
-    return Response({"track_timer": room.track_timer})
+    return JsonResponse({"track_timer": room.track_timer})
 
 @api_view(['GET'])
 def get_room_users(request, roomId):
