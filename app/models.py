@@ -10,7 +10,8 @@ from jsonfield import JSONField
 class Room(models.Model):
     name = models.CharField(max_length=255)
     # creator = models.ForeignKey(Account, on_delete=models.CASCADE)
-    amount_of_users = models.IntegerField()
+    mx_users = models.IntegerField()
+    amount_of_users = models.IntegerField(default = 1)
     song = models.CharField(max_length=255)
     timer = models.IntegerField()
 

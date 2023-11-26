@@ -219,7 +219,7 @@ def service_page(request):
 
         room = Room(
         name = request.POST['name'],
-        amount_of_users = int(request.POST['amount_of_users']),
+        max = int(request.POST['amount_of_users']),
         song = "Shape of my heart",
         timer = 128,
         )
