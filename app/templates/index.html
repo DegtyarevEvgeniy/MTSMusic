@@ -206,7 +206,15 @@
 
                 <br>
 
-                <a class="uk-button uk-button-secondary" href="#">Попробовать</a>
+                {% if user.is_authenticated == 0 %}
+
+                <a class="uk-button uk-button-secondary" href="/login/">Попробовать</a>
+                <p>Войдите в аккаунт что бы попробовать наш сервис</p>            
+                {% else %}
+    
+                <a class="uk-button uk-button-secondary" href="/service/">Попробовать</a>
+                
+                {% endif %}
                 
             </div>
 
