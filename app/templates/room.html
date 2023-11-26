@@ -46,7 +46,7 @@
         <div class="uk-alert-success" uk-alert>
             <a href class="uk-alert-close" uk-close></a>
 
-            <audio src="{% static 'music/' %}{{ room.song }}" controls autoplay></audio>
+            <audio id="roomAudio" src="{% static 'music/' %}{{ room.song }}" controls autoplay></audio>
 
         </div>
 </div>
@@ -92,42 +92,87 @@
     });
 </script>
 
+
+<!-- connect to server -->
 <script>
-    $(document).ready(function () {
-        var selectedSongId;  // Keep track of the selected song ID
+    console.log(window.location.pathname)
+    let url = `ws://${window.location.host}/ws${window.location.pathname}`
 
-        // WebSocket connection for song updates
-        var trackTimeSocket = new WebSocket(
-            'ws://' + window.location.host + '/ws/rooms/{{ room.id }}/get_track_time/');
-        trackTimeSocket.onmessage = function (e) {
-            var data = JSON.parse(e.data);
-            // Handle song updates, e.g., update the song playback time
-        };
+    const roomSocket = new WebSocket(url)
 
-        $('.song-button').click(function () {
-            selectedSongId = $(this).data('song-id');
-            
-            // Make an AJAX request to update the selected song
-            $.ajax({
-                type: 'PUT',
-                url: `/api/rooms/{{ room.id }}/select-track/${selectedSongId}`,
-                data: {
-                    selected_track_id: selectedSongId,
-                },
-                headers: {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                },
-                success: function (data) {
-                    // Optionally update the UI or handle success
-                    console.log('Song selected successfully');
-                },
-                error: function (error) {
-                    // Handle error
-                    console.error('Error selecting song:', error);
-                }
-            });
-        });
-    });
+    roomSocket.onmessage = function(e){
+        let data = JSON.parse(e.data)
+    }
+
 </script>
+
+<!-- plsy button control -->
+<script>
+
+   $(document).ready(function () {
+    // Create a WebSocket connection
+    var roomSocket = new WebSocket(
+        'ws://' + window.location.host +
+        `/ws${window.location.pathname}`
+    );
+
+    console.log("WebSocket connection established");
+
+    var audio = document.getElementById('roomAudio');
+    var isPlaying = false;  // Track the playback state
+
+    // Set up event listeners for WebSocket messages
+    roomSocket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        console.log('server respond:\n', data);
+        var action = data.action;
+
+        // Handle different actions
+        if (action === 'play') {
+            // Check if the audio is not already playing
+            if (!isPlaying) {
+                audio.play();
+                isPlaying = true;
+            }
+            audio.currentTime = data.currentTime;
+
+        } else if (action === 'pause') {
+            // Check if the audio is currently playing
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+            }
+        }
+    };
+
+    // Set up event listener for the 'play' event on the audio element
+    audio.addEventListener('play', function () {
+        console.log("Sending play request",audio.currentTime);
+
+        // Delay the playback request to ensure audio.currentTime is updated
+        setTimeout(function () {
+            roomSocket.send(JSON.stringify({
+                'action': 'play',
+                'currentTime': audio.currentTime  // Send the current playback time
+            }));
+        }, 100);  // Adjust the delay duration as needed
+
+    });
+
+    // Set up event listener for the 'pause' event on the audio element
+    audio.addEventListener('pause', function () {
+        console.log("Sending pause request", audio.currentTime);
+
+        // Send a playback request via WebSocket when the 'pause' event is triggered
+        roomSocket.send(JSON.stringify({
+            'action': 'pause',
+            'currentTime': audio.currentTime  // Send the current playback time
+        }));
+    });
+});
+
+
+</script>
+
 
 {% endblock %}

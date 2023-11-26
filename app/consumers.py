@@ -1,89 +1,59 @@
 # consumers.py
 
 import json
-from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 from django.contrib.auth.models import User
 
-class RoomConsumer(WebsocketConsumer):
-    def connect(self):
+class RoomConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
         self.room_id = self.scope['url_route']['kwargs']['room_id']
         self.room_group_name = f"room_{self.room_id}"
 
         # Join room group
-        async_to_sync(self.channel_layer.group_add)(
+        await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
+        await self.accept()
 
-        self.accept()
+        await self.send(text_data=json.dumps({
+            'type': 'connection',
+            'message': 'connected successfully',
+        }))
 
-    def disconnect(self, close_code):
+    async def disconnect(self, close_code):
         # Leave room group
-        async_to_sync(self.channel_layer.group_discard)(
+        await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
 
-    def receive(self, text_data):
+    async def receive(self, text_data):
+        print(f'recived data: \n {json.loads(text_data)}')
         message = json.loads(text_data)
         action = message.get('action')
+        time = message.get('currentTime')
 
-        if action == 'play':
-            async_to_sync(self.channel_layer.group_send)(
+        if action in ('play', 'pause'):
+            await self.channel_layer.group_send(
                 self.room_group_name,
                 {
-                    'type': 'play_song',
-                    'data': message.get('data')
+                    'type': 'playback_control',
+                    'data': message.get('data'),
+                    'action': action,
+                    'currentTime': message.get('currentTime', time)  # Receive current playback time
                 }
             )
 
-    # Receive message from room group
-    def play_song(self, event):
-        # Send message to WebSocket
-        self.send(text_data=json.dumps({
-            'action': 'play',
-            'data': event['data']
+    async def playback_control(self, event):
+        
+        action = event['action']
+        data = event['data']
+        currentTime = event['currentTime']  # Get current playback time
+
+        print(f"sent data: \n 'action': {action}, 'data': {data}, 'currentTime': {currentTime}")
+        await self.send(text_data=json.dumps({
+            'action': action,
+            'data': data,
+            'currentTime': currentTime  # Send current playback time to all users
         }))
-
-class RoomTrackTimeConsumer(WebsocketConsumer):
-    def connect(self):
-        self.room_id = self.scope['url_route']['kwargs']['room_id']
-        self.room_group_name = f"room_{self.room_id}_track_time"
-
-        # Join room group
-        async_to_sync(self.channel_layer.group_add)(
-            self.room_group_name,
-            self.channel_name
-        )
-
-        self.accept()
-
-    def disconnect(self, close_code):
-        # Leave room group
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.channel_name
-        )
-
-    def receive(self, text_data):
-        message = json.loads(text_data)
-        action = message.get('action')
-
-        if action == 'update_track_time':
-            async_to_sync(self.channel_layer.group_send)(
-                self.room_group_name,
-                {
-                    'type': 'send_track_time',
-                    'data': message.get('data')
-                }
-            )
-
-    # Receive message from room group
-    def send_track_time(self, event):
-        # Send message to WebSocket
-        self.send(text_data=json.dumps({
-            'action': 'update_track_time',
-            'data': event['data']
-        }))
-

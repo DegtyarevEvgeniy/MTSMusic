@@ -1,12 +1,11 @@
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.urls import path
-from app.consumers import RoomConsumer, RoomTrackTimeConsumer
+from app.consumers import RoomConsumer
+
+websocket_urlpatterns = [
+    path('ws/service/room/<int:room_id>/', RoomConsumer.as_asgi()),
+]
 
 application = ProtocolTypeRouter({
-    "websocket": URLRouter(
-        [
-            path("ws/rooms/<int:room_id>/", RoomConsumer.as_asgi()),
-            path("ws/rooms/<int:room_id>/get_track_time/", RoomTrackTimeConsumer.as_asgi()),
-        ]
-    ),
+    "websocket": URLRouter(websocket_urlpatterns),
 })
