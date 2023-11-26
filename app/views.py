@@ -229,9 +229,10 @@ def service_page(request):
 
 
     if request.method == 'POST' and 'AddToRoom' in request.POST:
-
-        print(request.POST)
+        
+        
         user.room = int(request.POST['AddToRoom'])
+        
         user.save()
 
         return redirect('/service/')
@@ -265,6 +266,10 @@ def roomTemplate_page(request, name):
     room = Room.objects.get(id=name)
     songs = Song.objects.all()
     user = Account.objects.get(id=request.user.id)
+    
+    if room.mx_users == room.amount_of_users and user.room != room.id:
+        return HttpResponseRedirect(f'/service/')
+
     content['room'] = room
     content['songs'] = [song for song in songs]
     
