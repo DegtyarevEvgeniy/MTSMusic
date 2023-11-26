@@ -1,58 +1,225 @@
-{% extends "base.html" %} 
-
+{% extends "base.html" %}
 
 {% block content %}
 
-{% include "menu.html" %}
-    <div  style=" height: 100vh;background-color: #FCFBFB">
+
+{% load static %}
 
 
-        <div class="uk-flex uk-flex-center@m uk-flex-right@l uk-grid-column-medium" style="padding-top:80px;padding-left:20%;padding-right:20%;" >
-            <div class="uk-card uk-card-hover uk-width-1-2" style="border-radius:10px;margin:20px;padding: 60px;padding-right:90px;padding-left:90px;background-color:#d9d4d4;" >
-                <h1 style="margin:0px;">test test test</h1>
-                <h2 class="uk-card-title" style="margin:0px;margin-top:10px;">Test</h2>
-                <ul>
-                    <li>test</li>
-                    <li>test</li>
-                    <li>test</li>
-                    <li>test</li>
-                    <li>test</li>
-                </ul>
-            </div>
-            <div class="uk-grid-row-medium uk-width-1-2"uk-grid>
-                <a href="homework/" style="color:black;text-decoration: none;padding:0px;">
-                    <div class="uk-card uk-card-hover uk-height-1-3" style="border-radius:10px;margin:20px;padding: 30px;background-color:#d9d4d4;" >
-                        <div>
-                            <h2 class="uk-card-title" align="center">Test test test 1</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Phasellus nec egestas magna. Sed condimentum eros sit amet quam accumsan,
-                            eu malesuada lacus congue. In scelerisque leo eget leo fermentum, at ultricies
-                            tellus euismod. Suspendisse sed purus in nisl congue tristique. Vestibulum ante
-                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec viverra,
-                            sapien eu blandit ultricies, libero est eleifend velit, id accumsan arcu purus at leo.
-                            Duis quis turpis et leo sagittis placerat in sit amet risus. Sed sagittis tortor et
-                            euismod blandit.</p>
-                        </div>
+
+<link rel="stylesheet" href="{% static "css/showPartner.css" %}">
+
+<style>
+    
+</style>
+
+<div class="main-sc uk-margin-top">
+
+    <div class="section1 uk-flex">
+
+        <div class="marg">
+
+            <h1 class="first-text-section1">
+                MTS Box
+            </h1>
+            <br>
+            <p class="second-text-section1">
+                Платформа для группового онлайн-прослушивания аудиоконтента
+            </p>
+            <br>
+
+            <a class="uk-button uk-button-secondary" href="/login/">Попробовать</a>
+
+        </div>
+
+        <div class="center-img-section1"></div>
+
+    </div>
+
+</div>
+
+
+
+<br>
+<br>
+<br>
+
+<div class="main-sc uk-margin-top">
+
+    <div class="main-sc-mid uk-width-4-5">
+
+            <div class="uk-flex">
+
+                <div>
+
+                    <div class="graph__wrapper">
+                        <svg width="315px" height="107px" viewBox="0 0 315 107" version="1.1" style="overflow:visible">
+                        <g  id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+                            <path id="Path-1" class="path" fill="none" stroke="#db5862" stroke-width="5" stroke-linejoin="round" stroke-miterlimit="10" d="M1.4,2.1c0,0,86,57,211.5,41.5s172.5-24.5,289,81"/>
+
+                        <path class="dashed" fill="none" stroke="white" stroke-width="8" stroke-linejoin="round" stroke-miterlimit="10" d="M1.4,2.1c0,0,86,57,211.5,41.5s172.5-24.5,289,81"/>   
+                            
+                            <polyline id="arrow" points="0,-9 18,0 0,9 5,0" fill="#db5862">
+                            <animateMotion rotate="auto" begin="1s" dur="1.6s" repeatCount="1" fill="freeze">
+                                <mpath xlink:href="#Path-1" />
+                            </animateMotion>
+                            </polyline>
+
+                        </g>
+                        </svg>
                     </div>
-                </a>
 
-                <div class="uk-card uk-card-hover uk-height-2-3" style="border-radius:10px;margin:20px;padding: 30px;background-color:#d9d4d4;" >
-                    <div>
-                        <h2 class="uk-card-title" >Test test test 1</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Phasellus nec egestas magna. Sed condimentum eros sit amet quam accumsan,
-                            eu malesuada lacus congue. In scelerisque leo eget leo fermentum, at ultricies
-                            tellus euismod. Suspendisse sed purus in nisl congue tristique. Vestibulum ante
-                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec viverra,
-                            sapien eu blandit ultricies, libero est eleifend velit, id accumsan arcu purus at leo.
-                            Duis quis turpis et leo sagittis placerat in sit amet risus. Sed sagittis tortor et
-                            euismod blandit.</p>
+                    <div class="card uk-margin-large-top card1">
+                        
+                        <h1>
+                            Онлайн
+
+                        </h1>
+
+                        <p>
+                            Открой для себя новый формат прослушивания музыки с друзьями                    
+                        </p>
+
                     </div>
+
                 </div>
+                <div class="uk-margin-large-top uk-margin-large-left" style="margin-left: auto;">
+
+                    <div style="height:107px">
+                        
+                    </div>
+
+                    
+                <h1 class="first-text-section1 uk-margin-large-top" style="margin: auto;">
+                    Больше чем плеер
+                </h1>
+
+
+                </div>
+
+
+
+            </div>
+
+            <div class="uk-flex uk-margin-medium-top ">
+
+                
+                <div class="card uk-margin-large-right uk-margin-large-left">
+                    
+                        <h1>
+                            Аналитика
+                        </h1>
+
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis iure, nesciunt labore amet non iste, eius consectetur doloribus nemo corrupti debitis delectus repudiandae, ipsam cupiditate! Dolor earum sapiente ducimus facilis!
+                        </p>
+
+                </div>
+
+                <div class="card uk-margin-large-right">
+                    
+                        <h1>
+                            Реклама товаров
+                        </h1>
+
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis iure, nesciunt labore amet non iste, eius consectetur doloribus nemo corrupti debitis delectus repudiandae, ipsam cupiditate! Dolor earum sapiente ducimus facilis!
+                        </p>
+
+                </div>
+
+
+
+                <div class="card ">
+                    
+                        <h1>
+                            Наша доставка 
+                        </h1>
+
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis iure, nesciunt labore amet non iste, eius consectetur doloribus nemo corrupti debitis delectus repudiandae, ipsam cupiditate! Dolor earum sapiente ducimus facilis!
+                        </p>
+
+                </div>
+
+            </div>
+
+
+
+    </div>
+
+
+</div>
+    
+
+</div>
+
+<br>
+<br>
+<br>
+
+
+
+<div class="main-sc uk-margin-large-top">
+
+    <div class="main-sc-mid uk-width-4-5">
+
+
+
+
+        <h1 class="first-text-section2">
+            Слушай контент онлайн вместе с друзьями
+        </h1>
+
+
+    </div>
+    
+
+</div>
+
+
+
+
+<br>
+<br>
+<br>
+
+
+<section class="uk-section section2">
+
+    <div class="uk-flex">
+
+        <div class="uk-width-3-5 center-text-section3" >
+
+            <div class="center-text-section3-mg uk-width-3-5">
+            
+                <h1 class="first-text-section3">
+                    Попробуй <br> MTS Box
+                </h1>
+
+                <br>
+
+                <a class="uk-button uk-button-secondary" href="#">Попробовать</a>
+                
             </div>
 
         </div>
 
+        <div class="center-img-section3 uk-width-2-5">
+
+        </div>
+
     </div>
+    
+
+</section>
+
+
+
+
+<br>
+
+{% include "footer.html" %}
+
 
 {% endblock %}
