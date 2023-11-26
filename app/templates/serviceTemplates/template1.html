@@ -3,10 +3,16 @@
 <link rel="stylesheet" href="{% static "css/template1-mainpage.css" %}">
 <script src="{% static "js/template1-mainpage.js" %}"></script>
 
+<br>
+<br>
+<br>
 
 
 <h2>Доступные комнаты</h2>
 
+<br>
+<br>
+<br>
 
 <div class="uk-child-width-1-2@s" uk-grid>
 
@@ -15,8 +21,28 @@
     <div>
     {% if room.amount_of_users != room.mx_users %}
 
-        <a href="room/{{room.id}}/">
-            <div class="uk-card uk-card-default uk-card-small uk-card-body">
+    <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+        <div class="uk-card-media-left uk-cover-container">
+            <img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" uk-cover>
+            <canvas width="600" height="400"></canvas>
+        </div>
+        <div>
+            <div class="uk-card-body">
+                <h3 class="uk-card-title">{{room.name}}</h3>
+                <p>Кол-во пользователей: {{room.amount_of_users}}</p>
+                {% if user.room == room.id %}
+                    <span class="uk-label uk-label-success">Вы в этой комнате!</span>
+                    <br>
+                {% endif %}
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active  uk-button-default"><a href="room/{{room.id}}/">Перейти в комнату</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+        <!-- <a href="room/{{room.id}}/">
+            <div class="uk-card uk-card-secondary uk-card-small uk-card-body">
                 <h3 class="uk-card-title">{{room.name}}</h3>
                 <p>Кол-во пользователей: {{room.amount_of_users}}</p>
                 {% if user.room == room.id %}
@@ -43,10 +69,28 @@
                        
                 </form> 
             </div>
-        </a>
+        </a> -->
     {% else %}
 
-        <div class="uk-card uk-card-default uk-card-small uk-card-body">
+    <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+        <div class="uk-card-media-left uk-cover-container">
+            <img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" uk-cover>
+            <canvas width="600" height="400"></canvas>
+        </div>
+        <div>
+            <div class="uk-card-body">
+                <h3 class="uk-card-title">{{room.name}}</h3>
+                <p>Кол-во пользователей: {{room.amount_of_users}}</p>
+                <span class="uk-label uk-label-danger">Комната переполненна</span>
+                {% if user.room == room.id %}
+                    <span class="uk-label uk-label-success">Вы в этой комнате!</span>
+                    <br>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+        <!-- <div class="uk-card uk-card-secondary uk-card-small uk-card-body">
             <h3 class="uk-card-title">{{room.name}}</h3>
             <p>Кол-во пользователей: {{room.amount_of_users}}</p>
             {% if user.room == room.id %}
@@ -57,7 +101,7 @@
                 <br>
             <form class="uk-grid-small" method="post" enctype="multipart/form-data" uk-grid>
                 {% csrf_token %}
-                    <h3>Простите, но комната переполнена. Подождите, пока из не кто-то выйдет</h3>
+                    <h3>Простите, но комната переполнена. Подождите, пока из нее кто-то выйдет</h3>
 
                     {% if user.room == room.id %}
                     <button
@@ -66,7 +110,7 @@
                     {% endif %}
                     
             </form> 
-        </div>
+        </div> -->
     {% endif %}
     
     </div>
